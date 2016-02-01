@@ -1,4 +1,4 @@
-//import RainbowText from 'objects/RainbowText';
+import Player from 'objects/Player';
 
 class GameState extends Phaser.State {
 
@@ -21,16 +21,18 @@ class GameState extends Phaser.State {
 		// Enable Physics Engine
 		this.game.physics.startSystem(Phaser.Physics.ARCADE);
 
-
-
-
 		// Background
 		this.game.stage.backgroundColor = '#3498db';
 
-		// Player
-		this.player = this.game.add.sprite(this.game.world.centerX, this.game.world.centerY, 'character');
-  		this.player.anchor.setTo(0.5, 0.5);
-  		this.game.physics.enable(this.player, Phaser.Physics.ARCADE);
+		this.player = new Player({
+            game: this.game,
+            x: center.x,
+            y: center.y,
+            asset: 'character',
+            frame: 1
+        });
+
+  		this.game.stage.addChild(this.player);
 
   		// Player Animations
 		var playerWalkSpeed = 10; 
@@ -53,6 +55,8 @@ class GameState extends Phaser.State {
 		this.game.physics.arcade.collide( this.player, this.walls );		
 		this.movePlayer();
 	}
+
+
 
 
 	movePlayer() {
