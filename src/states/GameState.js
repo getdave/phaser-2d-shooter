@@ -24,6 +24,7 @@ class GameState extends Phaser.State {
 		// Background
 		this.game.stage.backgroundColor = '#3498db';
 
+		// Player
 		this.player = new Player({
             game: this.game,
             x: center.x,
@@ -31,21 +32,7 @@ class GameState extends Phaser.State {
             asset: 'character',
             frame: 1
         });
-
   		this.game.stage.addChild(this.player);
-
-  		// Player Animations
-		var playerWalkSpeed = 10; 
-		this.walkDown 	= this.player.animations.add('walkDown', [0, 1], playerWalkSpeed, true);
-    	this.walkRight 	= this.player.animations.add('walkRight', [2, 3], playerWalkSpeed, true);
-    	this.walkUp 	= this.player.animations.add('walkUp', [4, 5], playerWalkSpeed, true);
-    	this.walkLeft 	= this.player.animations.add('walkLeft', [6, 7], playerWalkSpeed, true);
-
-
-
-		// Controls
-		this.cursor = this.game.input.keyboard.createCursorKeys();
-		
 		
 	}
 
@@ -53,47 +40,8 @@ class GameState extends Phaser.State {
 	update() {
 		// Tell Phaser that the player and the walls should collide
 		this.game.physics.arcade.collide( this.player, this.walls );		
-		this.movePlayer();
+		
 	}
-
-
-
-
-	movePlayer() {
-
-		var speed = 200;
-
-		this.player.body.velocity.y = 0;
-		this.player.body.velocity.x = 0;
-
-		if ( this.cursor.up.isDown || this.cursor.down.isDown || this.cursor.right.isDown || this.cursor.left.isDown ) {
-			if(this.cursor.up.isDown) {
-				this.player.body.velocity.y -= speed;
-				this.player.animations.play('walkUp');
-			}
-			else if(this.cursor.down.isDown) {
-				this.player.body.velocity.y += speed;
-				this.player.animations.play('walkDown');
-			}
-
-			if(this.cursor.left.isDown) {
-				this.player.body.velocity.x -= speed;
-				this.player.animations.play('walkLeft');
-			} else if(this.cursor.right.isDown) {
-				this.player.body.velocity.x += speed;
-				this.player.animations.play('walkRight');
-			} 
-		} else {
-			this.player.animations.stop();
-		}
-        
-
-	}
-
-	
-
-
-
 }
 
 export default GameState;
